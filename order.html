@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ชำระเงิน</title>
+    <link rel="stylesheet" href="หิน.css">
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: #f5f5f5;
+        }
+
+        .box {
+            position: relative;
+            background: white;
+            padding: 20px;
+            margin: 30px auto;
+            width: 320px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px #ccc;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: black;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #333;
+        }
+
+        img.qr {
+            width: 200px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+    <div class="back-arrow" onclick="goBack()">
+        ←
+    </div>
+        <h2>💳 ชำระเงิน</h2>
+
+        <!-- 🧾 รายการสินค้า -->
+        <div id="bill"></div>
+        <h3>รวม: <span id="total">0</span> บาท</h3>
+
+        <hr>
+
+    <!-- 👤 ข้อมูลลูกค้า -->
+        <h3>ข้อมูลผู้สั่งซื้อ</h3>
+
+        <input type="text" id="name" placeholder="ชื่อ - นามสกุล">
+        <input type="tel" id="phone" placeholder="เบอร์โทร">
+
+    <h3>การจัดส่ง</h3>
+
+    <select id="delivery" onchange="toggleAddress()">
+        <option value="">-- เลือกวิธีจัดส่ง --</option>
+        <option value="pickup">รับหน้าร้าน</option>
+        <option value="delivery">ให้ร้านจัดส่ง</option>
+    </select>
+    <div id="address-box" style="display:none;">
+        <h3>ที่อยู่จัดส่ง</h3>
+
+    <label>จังหวัด</label>
+    <select id="province" onchange="loadAmphures()"></select>
+
+    <label>อำเภอ</label>
+    <select id="amphure" onchange="loadDistricts()"></select>
+
+    <label>ตำบล</label>
+    <select id="district"></select>
+
+    <label>บ้านเลขที่ / ถนน</label>
+    <input type="text" id="address" placeholder="บ้านเลขที่ / ถนน">
+        
+    </div>
+    
+    <!-- 💳 วิธีจ่าย -->
+    <h3>วิธีชำระเงิน</h3>
+    <select id="payment" onchange="toggleBank()">
+         <option value="">-- เลือกวิธีชำระเงิน --</option>
+        <option value="bank">โอนผ่านธนาคาร</option>
+        <option value="cod">เก็บเงินปลายทาง</option>
+    </select>
+
+    <div id="bank-section" style="display:none;">
+
+        <div class="bank-box">
+            <img src="ttb.png" class="bank-logo">
+
+            <h3>ธนาคารทหารไทยธนชาต</h3>
+
+            <p>เลขบัญชี:</p>
+
+            <b id="bank-number">123-4-56789-0</b>
+
+            <img src="คัดลอก.png"
+                class="copy-icon"
+                onclick="copyBankNumber()">
+
+
+            <p>ชื่อบัญชี:</p>
+
+            <b>น.ส. กัญญาภัทร ละคร</b>
+        </div>
+
+        <br>
+
+        <input type="file" id="slip">
+    </div>
+
+    <br>
+    <button onclick="confirmPayment()">ยืนยันการสั่งซื้อ</button>
+
+</div>
+
+<script>
+function loadBill() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let html = "";
+    let total = 0;
+
+    cart.forEach(item => {
+        let subtotal = item.price * item.qty;
+        total += subtotal;
+
+        html += `
+        <div>
+            ${item.name} x ${item.qty} = ${subtotal} บาท
+        </div>
+        `;
+    });
+
+    document.getElementById("bill").innerHTML = html;
+    document.getElementById("total").innerText = total;
+}
+
+function toggleQR() {
+    let payment = document.getElementById("payment").value;
+    let qr = document.getElementById("qr-section");
+
+    if (payment === "qr") {
+        qr.style.display = "block";
+    } else {
+        qr.style.display = "none";
+    }
+}
+
+function confirmPayment() {
+    let name = document.getElementById("name").value;
+    let phone = document.getElementById("phone").value;
+    let address = document.getElementById("address").value;
+    let province = document.getElementById("province").value;
+    let payment = document.getElementById("payment").value;
+
+    if (!name || !phone || !address || !province) {
+        alert("กรุณากรอกข้อมูลให้ครบ");
+        return;
+    }
+
+    if (payment === "qr") {
+        let slip = document.getElementById("slip").files.length;
+        if (slip === 0) {
+            alert("กรุณาอัปโหลดสลิป");
+            return;
+        }
+    }
+
+    alert("สั่งซื้อสำเร็จ!");
+
+    localStorage.removeItem("cart");
+    window.location.href = "หิน.html";
+}
+
+loadBill();
+</script>
+<script src="หิน.js"></script>
+</body>
+</html>

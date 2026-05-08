@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet"
+    href="หิน.css">
+    <title>มิ้นต์หินตกแต่ง และพันธุ์ไม้</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background-color: #f5f5f5;
+            text-align: center;
+        }
+
+        .navbar {
+            background: black;
+            color: white;
+            padding: 15px;
+        }
+        
+        .banner {
+            background-image: url("https://via.placeholder.com/1200x400");
+            height: 250px;
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+        }
+
+        .branch-btn {
+            margin: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        .card {
+            width: 200px;
+            display: inline-block;
+            margin: 15px;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+        }
+
+        img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        button {
+            background: black;
+            color: white;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <h1>
+            <img src="โลโก้.jpg" class="logo">มิ้นต์หินตกแต่ง และพันธุ์ไม้
+        </h1>
+
+        <div class="cart-icon" onclick="toggleCart()">
+             🛒 <span id="cart-count">0</span>
+        </div>
+    </div>
+    <div id="cart-popup" class="cart-popup" style="display:none;">
+        <h3>🛒 ตะกร้าสินค้า</h3>
+        <div id="cart-items"></div>
+        <p>รวม: <span id="cart-total">0</span> บาท</p>
+   
+        <button onclick="goToCart()">ไปหน้าตะกร้า</button>
+    </div>
+    <p class="banner"> เลือกสาขาเพื่อดูสินค้า </p>
+
+    <h2>เลือกสาขา</h2>
+    <button class="branch-btn" onclick="showBranch('A')">สาขา นครพนม</button>
+    <button class="branch-btn" onclick="showBranch('B')">สาขา อุบลราชธานี</button>
+
+    <div class="container" id="product-container">
+        <p>กรุณาเลือกสาขา</p>
+      
+      <p>หมายเหตุ : ทางร้านจัดส่งให้ได้แค่สาขาที่อยู่ใกล้บ้านท่าน</p>
+    </div>
+    <div id="shipping-area"></div>
+
+<script>
+        let shippingText = "";
+
+        let currentProduct = "";
+        let currentPrice = 0;
+        let qty = 1;
+
+        function showBranch(branch) {
+            let html = "";
+
+            if (branch === "A") {
+                html = `
+                
+                <h2>สาขา นครพนม</h2>
+
+                <div class="card">
+                    <img src="หินกาบดำ.jpg">
+                    <h3>หินกาบดำ</h3>
+                    <p>ราคา 450 บาท/ตร.ม.</p>
+                    <button onclick="openPopup('หินกาบดำ', 450, 'A')">ซื้อ</button>
+                </div>
+
+                <div class="card">
+                    <img src="หินทรายเขียว.jpg">
+                    <h3>หินทรายเขียว</h3>
+                    <p>ราคา 450 บาท/ตร.ม.</p>
+                    <button onclick="openPopup('หินทรายเขียว', 450, 'A')">ซื้อ</button>
+                </div>
+
+                <div class="card">
+                    <img src="หินทรายเหลืองลาย.jpg">
+                    <h3>หินทรายเหลืองลาย</h3>
+                    <p>ราคา 280 บาท/ตร.ม.</p>
+                    <button onclick="openPopup('หินทรายเหลืองลาย', 280, 'A')">ซื้อ</button>
+                </div>
+                `;
+
+                shippingText = "🚚 จัดส่ง: นครพนม, สกลนคร, มุกดาหาร, บึงกาฬ";
+            }
+        
+            if (branch === "B") {
+                html = `
+                <h2>สาขา อุบลราชธานี</h2>
+
+                <div class="card">
+                    <img src="หินกาบดำ2.jpg">
+                    <h3>หินกาบดำ</h3>
+                    <p>ราคา 450 บาท/ตร.ม.</p>
+                    <button onclick="openPopup('หินกาบดำ', 450, 'B')">ซื้อ</button>
+                </div>
+
+                <div class="card">
+                    <img src="หินทรายเขียว.jpg">
+                    <h3>หินทรายเขียว</h3>
+                    <p>ราคา 450 บาท/ตร.ม.</p>
+                    <button onclick="openPopup('หินทรายเขียว', 450, 'B')">ซื้อ</button>
+                </div>
+
+                <div class="card">
+                    <img src="หินทรายเหลืองทอง.jpg">
+                    <h3>หินทรายเหลืองทอง</h3>
+                    <p>ราคา 250 บาท/ตร.ม.</p>
+                    <button onclick="openPopup('หินทรายเหลืองทอง', 250, 'B')">ซื้อ</button>
+                </div>
+                `;
+
+                shippingText = "🚚 จัดส่ง: อุบลราชธานี, ยโสธร, อำนาจเจริญ";
+            }
+        document.getElementById("product-container").innerHTML = html;
+        document.getElementById("shipping-area").innerText = shippingText;
+        }
+
+function openPopup(name, price, branch) {
+    currentProduct = name;
+    currentPrice = price;
+    currentBranch = branch;
+    qty = 1;
+
+    document.getElementById("popup-name").innerText = name;
+    document.getElementById("popup-qty").innerText = qty;
+
+    document.getElementById("popup").style.display = "block";
+}
+
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+}
+
+function increasePopup() {
+    qty++;
+    document.getElementById("popup-qty").innerText = qty;
+}
+
+function decreasePopup() {
+    if (qty > 1) {
+        qty--;
+        document.getElementById("popup-qty").innerText = qty;
+    }
+}
+</script>
+
+<div id="popup" class="popup">
+    <div class="popup-box">
+      <h3 id="popup-name"></h3>
+  
+      <div class="qty-box">
+        <button onclick="decreasePopup()">-</button>
+        <span id="popup-qty">1</span>
+        <button onclick="increasePopup()">+</button>
+      </div>
+  
+      <br>
+      <button type="button" onclick="confirmBuy()">ยืนยัน</button>
+      <button onclick="closePopup()">ยกเลิก</button>
+    </div>
+  </div>
+</body>
+<script src="หิน.js"></script>
+</html>
