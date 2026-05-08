@@ -186,7 +186,7 @@ function confirmPayment() {
 
     alert("สั่งซื้อสำเร็จ!");
     localStorage.removeItem("cart");
-    window.location.href = "หิน.html";
+    window.location.href = "index.html";
 }
 
 // ================== ADDRESS ==================
@@ -334,7 +334,7 @@ function copyBankNumber() {
 }
 
 function goBack() {
-    window.location.href = "หิน.html";
+    window.location.href = "index.html";
 }
 // ================== START ==================
 loadProvinces();
