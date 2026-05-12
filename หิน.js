@@ -232,34 +232,36 @@ function confirmPayment() {
 
     {
 
-        method: "POST",
+    method: "POST",
 
-        headers: {
-            "Content-Type":
-            "application/json"
-        },
+    mode: "no-cors",
 
-        body: JSON.stringify({
+    headers: {
+        "Content-Type":
+        "application/json"
+    },
 
-            name: name,
+    body: JSON.stringify({
 
-            phone: phone,
+        name: name,
 
-            email: email,
+        phone: phone,
 
-            province: provinceName,
+        email: email,
 
-            product: JSON.parse(
-                localStorage.getItem("cart")
-            )[0].name,
+        province: provinceName,
 
-            qty: JSON.parse(
-                localStorage.getItem("cart")
-            )[0].qty,
+        product: JSON.parse(
+            localStorage.getItem("cart")
+        )[0].name,
 
-            delivery: delivery
-        })
-    });
+        qty: JSON.parse(
+            localStorage.getItem("cart")
+        )[0].qty,
+
+        delivery: delivery
+    })
+});
 
     alert("สั่งซื้อสำเร็จ!");
 
