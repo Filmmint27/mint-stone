@@ -166,32 +166,6 @@ function toggleQR() {
     }
 }
 
-function confirmPayment() {
-    let name = document.getElementById("name").value;
-    let phone = document.getElementById("phone").value;
-    let address = document.getElementById("address").value;
-    let province = document.getElementById("province").value;
-    let payment = document.getElementById("payment").value;
-
-    if (!name || !phone || !address || !province) {
-        alert("กรุณากรอกข้อมูลให้ครบ");
-        return;
-    }
-
-    if (payment === "qr") {
-        let slip = document.getElementById("slip").files.length;
-        if (slip === 0) {
-            alert("กรุณาอัปโหลดสลิป");
-            return;
-        }
-    }
-
-    alert("สั่งซื้อสำเร็จ!");
-
-    localStorage.removeItem("cart");
-    window.location.href = "index.html";
-}
-
 loadBill();
 </script>
 <script src="หิน.js"></script>

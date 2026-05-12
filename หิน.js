@@ -153,65 +153,75 @@ function goToCart() {
 
 // ================== PAYMENT ==================
 function confirmPayment() {
-    let name = document.getElementById("name").value;
-    let phone = document.getElementById("phone").value;
-    let email = document.getElementById("email").value;
-    let provinceValue = document.getElementById("province").value;
-    let payment = document.getElementById("payment").value;
-    let delivery = document.getElementById("delivery").value;
+
+    let name =
+    document.getElementById("name").value;
+
+    let phone =
+    document.getElementById("phone").value;
+
+    let email =
+    document.getElementById("email").value;
+
+    let province =
+    document.getElementById("province");
+
+    let provinceValue =
+    province.value;
+
+    let provinceName =
+    province.options[
+        province.selectedIndex
+    ].text;
+
+    let delivery =
+    document.querySelector(
+        'input[name="delivery"]:checked'
+    )?.value;
 
     if (!name || !phone || !email || !delivery) {
+
         alert("กรุณากรอกข้อมูลให้ครบ");
+
         return;
     }
 
-    let amphure = document.getElementById("amphure").value;
-    let district = document.getElementById("district").value;
+    fetch("https://script.google.com/macros/s/AKfycbxuKJIdn1GRLWWtb-oE6ruAIg1A9q13yUhPTWFql3907TQ5GxTz3V09RKluT4bQvhOH/exec", {
 
-    if (delivery === "delivery") {
-        let address = document.getElementById("address").value;
+        method: "POST",
 
-        if (!address || !provinceValue || !amphure || !district) {
-            alert("กรุณากรอกที่อยู่ให้ครบ");
-            return;
-        }
-    }
+        headers: {
+            "Content-Type": "application/json"
+        },
 
-    if (payment === "bank") {
-        let slip = document.getElementById("slip").files.length;
-        if (slip === 0) {
-            alert("กรุณาอัปโหลดสลิป");
-            return;
-        }
-    }
+        body: JSON.stringify({
 
-    fetch("https://script.google.com/macros/s/AKfycby2p0qQ_BWP6Lt5BXOypf9J1LJafKjMrdqyMnymNa0_zvSyI7B2bi2q_8gno01_mWm7/exec", {
+            name: name,
 
-    method: "POST",
+            phone: phone,
 
-    body: JSON.stringify({
+            email: email,
 
-        name: name,
+            province: provinceName,
 
-        phone: phone,
+            product: JSON.parse(
+                localStorage.getItem("cart")
+            )[0].name,
 
-        email: email,
+            qty: JSON.parse(
+                localStorage.getItem("cart")
+            )[0].qty,
 
-        province: provinceValue,
-
-        product: JSON.stringify(
-            JSON.parse(localStorage.getItem("cart"))
-        ),
-
-        delivery: delivery
-    })
-});
+            delivery: delivery
+        })
+    });
 
     alert("สั่งซื้อสำเร็จ!");
+
     localStorage.removeItem("cart");
+
     window.location.href = "index.html";
 }
-
 // ================== ADDRESS ==================
 function toggleAddress() {
     let selected = document.getElementById("delivery").value;
@@ -235,7 +245,10 @@ function loadProvinces() {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     let branch = cart.length > 0 ? cart[0].branch : null;
 
-    let provinceSelect = document.getElementById("province");
+    let provinceName =
+    province.options[
+        province.selectedIndex
+    ].text;
 
     if (!provinceSelect) return;
 
