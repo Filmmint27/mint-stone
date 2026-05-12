@@ -174,6 +174,17 @@ function confirmPayment() {
         province.selectedIndex
     ].text;
 
+    if (delivery === "pickup") {
+
+        provinceName = "";
+
+        amphure = "";
+
+        district = "";
+
+        address = "";
+    }
+
     let payment =
     document.getElementById("payment").value;
 
