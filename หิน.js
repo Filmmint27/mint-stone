@@ -251,6 +251,12 @@ function confirmPayment() {
 
         province: provinceName,
 
+        amphure: amphure,
+
+        district: district,
+
+        address: address,
+
         product: JSON.parse(
             localStorage.getItem("cart")
         )[0].name,
