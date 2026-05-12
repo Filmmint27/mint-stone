@@ -187,14 +187,18 @@ function confirmPayment() {
         return;
     }
 
-    let amphureSelect =
-    document.getElementById("amphure");
+    let amphure = "";
 
-    let amphure =
-    amphureSelect.options[
-        amphureSelect.selectedIndex
-    ].text;
+    if (delivery === "delivery") {
 
+        let amphureSelect =
+        document.getElementById("amphure");
+
+        amphure =
+        amphureSelect.options[
+            amphureSelect.selectedIndex
+        ].text;
+    }
     let district =
     document.getElementById("district").value;
 
