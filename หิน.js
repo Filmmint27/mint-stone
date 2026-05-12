@@ -174,8 +174,12 @@ function confirmPayment() {
         province.selectedIndex
     ].text;
 
+    let payment =
+    document.getElementById("payment").value;
+
     let delivery =
     document.getElementById("delivery").value;
+
     if (!name || !phone || !email || !delivery) {
 
         alert("กรุณากรอกข้อมูลให้ครบ");
@@ -183,12 +187,56 @@ function confirmPayment() {
         return;
     }
 
-    fetch("https://script.google.com/macros/s/AKfycbxuKJIdn1GRLWWtb-oE6ruAIg1A9q13yUhPTWFql3907TQ5GxTz3V09RKluT4bQvhOH/exec", {
+    let amphure =
+    document.getElementById("amphure").value;
+
+    let district =
+    document.getElementById("district").value;
+
+    if (delivery === "delivery") {
+
+        let address =
+        document.getElementById("address").value;
+
+        if (
+            !address ||
+            !provinceValue ||
+            !amphure ||
+            !district
+        ) {
+
+            alert("กรุณากรอกที่อยู่ให้ครบ");
+
+            return;
+        }
+    }
+
+    if (payment === "bank") {
+
+        let slip =
+        document.getElementById("slip")
+        .files.length;
+
+        if (slip === 0) {
+
+            alert("กรุณาอัปโหลดสลิป");
+
+            return;
+        }
+    }
+
+    console.log("ส่งข้อมูลแล้ว");
+
+    fetch(
+    "https://script.google.com/macros/s/AKfycbxuKJIdn1GRLWWtb-oE6ruAIg1A9q13yUhPTWFql3907TQ5GxTz3V09RKluT4bQvhOH/exec",
+
+    {
 
         method: "POST",
 
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type":
+            "application/json"
         },
 
         body: JSON.stringify({
@@ -219,6 +267,7 @@ function confirmPayment() {
 
     window.location.href = "index.html";
 }
+
 // ================== ADDRESS ==================
 function toggleAddress() {
     let selected = document.getElementById("delivery").value;
@@ -239,43 +288,52 @@ const branchProvinces = {
 
 function loadProvinces() {
 
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let branch = cart.length > 0 ? cart[0].branch : null;
+    let cart =
+    JSON.parse(
+        localStorage.getItem("cart")
+    ) || [];
 
-    let provinceName =
-    province.options[
-        province.selectedIndex
-    ].text;
+    let branch =
+    cart.length > 0
+    ? cart[0].branch
+    : null;
+
+    let provinceSelect =
+    document.getElementById("province");
 
     if (!provinceSelect) return;
 
     fetch("provinces.json")
+
     .then(res => res.json())
+
     .then(data => {
 
-        // เก็บไว้ใช้ต่อ
         window.thaiData = data;
 
         provinceSelect.innerHTML =
         '<option value="">-- เลือกจังหวัด --</option>';
 
-        // จังหวัดตามสาขา
-        let allowed = branchProvinces[branch] || [];
+        let allowed =
+        branchProvinces[branch] || [];
 
-        // filter เฉพาะจังหวัดของสาขา
-        let filtered = data.filter(p =>
-            allowed.includes(p.name_th)
+        let filtered =
+        data.filter(p =>
+
+            allowed.includes(
+                p.name_th
+            )
         );
 
         filtered.forEach(item => {
 
-            province.innerHTML += `
+            provinceSelect.innerHTML += `
+
             <option value="${item.id}">
                 ${item.name_th}
             </option>
             `;
         });
-
     });
 }
 
