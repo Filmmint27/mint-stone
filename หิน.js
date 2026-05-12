@@ -193,6 +193,22 @@ function confirmPayment() {
 
     let address = "";
 
+    let branchCode = JSON.parse(
+    localStorage.getItem("cart")
+    )[0].branch;
+
+    let branch = "";
+
+    if (branchCode === "A") {
+
+        branch = "สาขานครพนม";
+    }
+
+    else if (branchCode === "B") {
+
+        branch = "สาขาอุบลราชธานี";
+    }
+
     if (delivery === "delivery") {
 
         let amphureSelect =
@@ -247,8 +263,6 @@ function confirmPayment() {
         }
     }
 
-    console.log("ส่งข้อมูลแล้ว");
-
     fetch(
     "https://script.google.com/macros/s/AKfycbxuKJIdn1GRLWWtb-oE6ruAIg1A9q13yUhPTWFql3907TQ5GxTz3V09RKluT4bQvhOH/exec",
 
@@ -272,6 +286,8 @@ function confirmPayment() {
             email: email,
 
             province: provinceName,
+
+            branch: branch,
 
             amphure: amphure,
 
