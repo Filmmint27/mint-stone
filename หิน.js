@@ -187,11 +187,19 @@ function confirmPayment() {
         return;
     }
 
+    let amphureSelect =
+    document.getElementById("amphure");
+
     let amphure =
-    document.getElementById("amphure").value;
+    amphureSelect.options[
+        amphureSelect.selectedIndex
+    ].text;
 
     let district =
     document.getElementById("district").value;
+
+    let address =
+    document.getElementById("address").value;
 
     if (delivery === "delivery") {
 
