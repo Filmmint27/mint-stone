@@ -174,17 +174,6 @@ function confirmPayment() {
         province.selectedIndex
     ].text;
 
-    if (delivery === "pickup") {
-
-        provinceName = "";
-
-        amphure = "";
-
-        district = "";
-
-        address = "";
-    }
-
     let payment =
     document.getElementById("payment").value;
 
@@ -200,6 +189,10 @@ function confirmPayment() {
 
     let amphure = "";
 
+    let district = "";
+
+    let address = "";
+
     if (delivery === "delivery") {
 
         let amphureSelect =
@@ -209,16 +202,11 @@ function confirmPayment() {
         amphureSelect.options[
             amphureSelect.selectedIndex
         ].text;
-    }
-    let district =
-    document.getElementById("district").value;
 
-    let address =
-    document.getElementById("address").value;
+        district =
+        document.getElementById("district").value;
 
-    if (delivery === "delivery") {
-
-        let address =
+        address =
         document.getElementById("address").value;
 
         if (
@@ -232,6 +220,17 @@ function confirmPayment() {
 
             return;
         }
+    }
+
+    if (delivery === "pickup") {
+
+        provinceName = "";
+
+        amphure = "";
+
+        district = "";
+
+        address = "";
     }
 
     if (payment === "bank") {
@@ -255,42 +254,42 @@ function confirmPayment() {
 
     {
 
-    method: "POST",
+        method: "POST",
 
-    mode: "no-cors",
+        mode: "no-cors",
 
-    headers: {
-        "Content-Type":
-        "application/json"
-    },
+        headers: {
+            "Content-Type":
+            "application/json"
+        },
 
-    body: JSON.stringify({
+        body: JSON.stringify({
 
-        name: name,
+            name: name,
 
-        phone: phone,
+            phone: phone,
 
-        email: email,
+            email: email,
 
-        province: provinceName,
+            province: provinceName,
 
-        amphure: amphure,
+            amphure: amphure,
 
-        district: district,
+            district: district,
 
-        address: address,
+            address: address,
 
-        product: JSON.parse(
-            localStorage.getItem("cart")
-        )[0].name,
+            product: JSON.parse(
+                localStorage.getItem("cart")
+            )[0].name,
 
-        qty: JSON.parse(
-            localStorage.getItem("cart")
-        )[0].qty,
+            qty: JSON.parse(
+                localStorage.getItem("cart")
+            )[0].qty,
 
-        delivery: delivery
-    })
-});
+            delivery: delivery
+        })
+    });
 
     alert("สั่งซื้อสำเร็จ!");
 
