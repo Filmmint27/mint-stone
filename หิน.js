@@ -155,11 +155,12 @@ function goToCart() {
 function confirmPayment() {
     let name = document.getElementById("name").value;
     let phone = document.getElementById("phone").value;
+    let email = document.getElementById("email").value;
     let provinceValue = document.getElementById("province").value;
     let payment = document.getElementById("payment").value;
     let delivery = document.getElementById("delivery").value;
 
-    if (!name || !phone || !delivery) {
+    if (!name || !phone || !email || !delivery) {
         alert("กรุณากรอกข้อมูลให้ครบ");
         return;
     }
@@ -183,6 +184,28 @@ function confirmPayment() {
             return;
         }
     }
+
+    fetch("https://script.google.com/macros/s/AKfycby2p0qQ_BWP6Lt5BXOypf9J1LJafKjMrdqyMnymNa0_zvSyI7B2bi2q_8gno01_mWm7/exec", {
+
+    method: "POST",
+
+    body: JSON.stringify({
+
+        name: name,
+
+        phone: phone,
+
+        email: email,
+
+        province: provinceValue,
+
+        product: JSON.stringify(
+            JSON.parse(localStorage.getItem("cart"))
+        ),
+
+        delivery: delivery
+    })
+});
 
     alert("สั่งซื้อสำเร็จ!");
     localStorage.removeItem("cart");
@@ -336,6 +359,25 @@ function copyBankNumber() {
 function goBack() {
     window.location.href = "index.html";
 }
+
+function openMenu() {
+
+    document.getElementById("sidebar")
+            .style.width = "250px";
+
+    document.getElementById("menu-btn")
+            .style.display = "none";
+}
+
+function closeMenu() {
+
+    document.getElementById("sidebar")
+            .style.width = "0";
+
+    document.getElementById("menu-btn")
+            .style.display = "block";
+}
+
 // ================== START ==================
 loadProvinces();
 updateCartCount();

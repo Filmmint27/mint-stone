@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>สินค้า</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="หิน.css">
+
+</head>
+
+<body>
+
+<!-- เมนู -->
+<button id="menu-btn"
+        class="menu-btn"
+        onclick="openMenu()">
+☰
+</button>
+
+<div id="sidebar" class="sidebar">
+
+    <button class="close-btn"
+            onclick="closeMenu()">
+        ✕
+    </button>
+
+    <a href="index.html">หน้าแรก</a>
+
+    <a href="products.html">สินค้า</a>
+
+    <a href="#">ขอใบเสนอราคา</a>
+
+    <a href="#">เกี่ยวกับเรา</a>
+
+    <a href="#">ติดต่อ</a>
+
+</div>
+
+<!-- เนื้อหา -->
+<div class="product-page">
+
+    <h1>สินค้าทั้งหมด</h1>
+
+    <!-- ปุ่มเลือกสาขา -->
+    <div class="branch-buttons">
+
+        <button onclick="showProducts('A')">
+            สาขานครพนม
+        </button>
+
+        <button onclick="showProducts('B')">
+            สาขาอุบลราชธานี
+        </button>
+
+    </div>
+
+    <!-- รายการสินค้า -->
+    <div id="product-list"></div>
+
+</div>
+
+<!-- ดึง JS หลัก -->
+<script src="หิน.js"></script>
+
+<!-- JS หน้านี้ -->
+<script>
+
+const products = {
+
+    A: [
+
+        {
+            name: "หินกาบดำ",
+            size: "30 x 60 ซม.",
+            stock: 120,
+            image: "หินกาบดำ.jpg"
+        },
+
+        {
+            name: "หินทรายเขียว",
+            size: "30 x 60 ซม.",
+            stock: 120,
+            image: "หินทรายเขียว.jpg"
+        },
+
+        {
+            name: "หินทรายเหลืองลาย",
+            size: "40 x 40 ซม.",
+            stock: 80,
+            image: "หินทรายเหลืองลาย.jpg"
+        }
+
+    ],
+
+    B: [
+
+        {
+            name: "หินกาบดำ",
+            size: "30 x 60 ซม.",
+            stock: 95,
+            image: "หินกาบดำ2.jpg"
+        },
+
+        {
+            name: "หินทรายเขียว",
+            size: "30 x 60 ซม.",
+            stock: 120,
+            image: "หินทรายเขียว.jpg"
+        },
+
+        {
+            name: "หินทรายเหลืองทอง",
+            size: "60 x 60 ซม.",
+            stock: 150,
+            image: "หินทรายเหลืองทอง.jpg"
+        }
+
+    ]
+};
+
+function showProducts(branch) {
+
+    let list =
+        document.getElementById("product-list");
+
+    let html = "";
+
+    products[branch].forEach(item => {
+
+        html += `
+
+        <div class="product-card">
+
+            <img src="${item.image}">
+
+            <div class="product-info">
+
+                <h3>${item.name}</h3>
+
+                <p>ขนาด: ${item.size}</p>
+
+                <p>คงเหลือ: ${item.stock} ตร.ม.</p>
+
+            </div>
+
+        </div>
+        `;
+    });
+
+    list.innerHTML = html;
+}
+
+showProducts("A");
+
+</script>
+
+</body>
+</html>
