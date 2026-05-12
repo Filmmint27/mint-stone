@@ -175,10 +175,7 @@ function confirmPayment() {
     ].text;
 
     let delivery =
-    document.querySelector(
-        'input[name="delivery"]:checked'
-    )?.value;
-
+    document.getElementById("delivery").value;
     if (!name || !phone || !email || !delivery) {
 
         alert("กรุณากรอกข้อมูลให้ครบ");
