@@ -201,12 +201,12 @@ function confirmPayment() {
 
     if (branchCode === "A") {
 
-        branch = "สาขานครพนม";
+        branch = "นครพนม";
     }
 
     else if (branchCode === "B") {
 
-        branch = "สาขาอุบลราชธานี";
+        branch = "อุบลราชธานี";
     }
 
     if (delivery === "delivery") {
