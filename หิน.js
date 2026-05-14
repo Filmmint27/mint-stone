@@ -201,12 +201,12 @@ function confirmPayment() {
 
     if (branchCode === "A") {
 
-        branch = "นครพนม";
+        branch = "สาขานครพนม";
     }
 
     else if (branchCode === "B") {
 
-        branch = "อุบลราชธานี";
+        branch = "สาขาอุบลราชธานี";
     }
 
     if (delivery === "delivery") {
@@ -261,6 +261,10 @@ function confirmPayment() {
 
             return;
         }
+    console.log(branch);
+console.log(provinceName);
+console.log(amphure);
+console.log(address);
     }
     fetch(
 "https://script.google.com/macros/s/AKfycbxuKJIdn1GRLWWtb-oE6ruAIg1A9q13yUhPTWFql3907TQ5GxTz3V09RKluT4bQvhOH/exec",
