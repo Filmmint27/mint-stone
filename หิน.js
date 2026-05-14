@@ -263,42 +263,43 @@ function confirmPayment() {
         }
     }
     fetch(
-    "https://script.google.com/macros/s/AKfycbxuKJIdn1GRLWWtb-oE6ruAIg1A9q13yUhPTWFql3907TQ5GxTz3V09RKluT4bQvhOH/exec",
-        
-    {
-        
-        method: "POST",
+"https://script.google.com/macros/s/AKfycbxuKJIdn1GRLWWtb-oE6ruAIg1A9q13yUhPTWFql3907TQ5GxTz3V09RKluT4bQvhOH/exec",
 
-        mode: "no-cors",
+{
 
-        body: JSON.stringify({
+    method: "POST",
 
-            name: name,
+    mode: "no-cors",
 
-            phone: phone,
+    body: new URLSearchParams({
 
-            email: email,
+        name: name,
 
-            province: provinceName,
+        phone: phone,
 
-            branch: branch,
+        email: email,
 
-            amphure: amphure,
+        branch: branch,
 
-            district: district,
+        province: provinceName,
 
-            address: address,
+        amphure: amphure,
 
-            product: JSON.parse(
-                localStorage.getItem("cart")
-            )[0].name,
+        district: district,
 
-            qty: JSON.parse(
-                localStorage.getItem("cart")
-            )[0].qty,
+        address: address,
 
-            delivery: delivery
-        })
+        product: JSON.parse(
+            localStorage.getItem("cart")
+        )[0].name,
+
+        qty: JSON.parse(
+            localStorage.getItem("cart")
+        )[0].qty,
+
+        delivery: delivery
+    })
+
     });
     alert("สั่งซื้อสำเร็จ!");
 
