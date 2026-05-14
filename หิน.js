@@ -261,10 +261,6 @@ function confirmPayment() {
 
             return;
         }
-    console.log(branch);
-console.log(provinceName);
-console.log(amphure);
-console.log(address);
     }
     fetch(
 "https://script.google.com/macros/s/AKfycbxuKJIdn1GRLWWtb-oE6ruAIg1A9q13yUhPTWFql3907TQ5GxTz3V09RKluT4bQvhOH/exec",
@@ -303,14 +299,15 @@ console.log(address);
 
         delivery: delivery
     })
+})
 
-    });
+.then(() => {
     alert("สั่งซื้อสำเร็จ!");
 
     localStorage.removeItem("cart");
 
     window.location.href = "index.html";
-}
+});
 
 // ================== ADDRESS ==================
 function toggleAddress() {
