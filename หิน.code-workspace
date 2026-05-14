@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../Desktop/thailand.json"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "หิน"
+	}
+}

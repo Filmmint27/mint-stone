@@ -58,6 +58,10 @@
 
     </div>
 
+    <h2 id="current-branch">
+        สาขานครพนม
+    </h2>
+
     <!-- รายการสินค้า -->
     <div id="product-list"></div>
 
@@ -75,21 +79,21 @@ const products = {
 
         {
             name: "หินกาบดำ",
-            size: "30 x 60 ซม.",
+            size: "5 x 20 ซม.",
             stock: 120,
             image: "หินกาบดำ.jpg"
         },
 
         {
             name: "หินทรายเขียว",
-            size: "30 x 60 ซม.",
+            size: "5 x 20 ซม.",
             stock: 120,
             image: "หินทรายเขียว.jpg"
         },
 
         {
             name: "หินทรายเหลืองลาย",
-            size: "40 x 40 ซม.",
+            size: "5 x 20 ซม.",
             stock: 80,
             image: "หินทรายเหลืองลาย.jpg"
         }
@@ -100,21 +104,21 @@ const products = {
 
         {
             name: "หินกาบดำ",
-            size: "30 x 60 ซม.",
+            size: "5 x 20 ซม.",
             stock: 95,
-            image: "หินกาบดำ2.jpg"
+            image: "หินกาบดำ.jpg"
         },
 
         {
             name: "หินทรายเขียว",
-            size: "30 x 60 ซม.",
+            size: "5 x 20 ซม.",
             stock: 120,
             image: "หินทรายเขียว.jpg"
         },
 
         {
             name: "หินทรายเหลืองทอง",
-            size: "60 x 60 ซม.",
+            size: "5 x 20 ซม.",
             stock: 150,
             image: "หินทรายเหลืองทอง.jpg"
         }
@@ -126,6 +130,22 @@ function showProducts(branch) {
 
     let list =
         document.getElementById("product-list");
+
+    let branchText = "";
+
+    if (branch === "A") {
+
+        branchText = "สาขานครพนม";
+    }
+
+    else if (branch === "B") {
+
+        branchText = "สาขาอุบลราชธานี";
+    }
+
+    document.getElementById(
+        "current-branch"
+    ).innerText = branchText;
 
     let html = "";
 
