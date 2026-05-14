@@ -14,6 +14,17 @@ function updateCartCount() {
 // ================== CONFIRM BUY ==================
 function confirmBuy() {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    qty = parseInt(
+        document.getElementById("popup-qty")
+        .value
+    );
+
+    if (!qty || qty <= 0) {
+
+        alert("กรุณาใส่จำนวนสินค้า");
+
+        return;
+    }
 
     // กันพัง: ถ้าไม่มีค่าปัจจุบัน
     if (!currentProduct || !currentPrice || !currentBranch) {
@@ -29,13 +40,28 @@ function confirmBuy() {
 
     let found = cart.find(item => item.name === currentProduct);
 
+    let inputQty = parseInt(
+        document.getElementById(
+            "popup-qty"
+        ).value
+    );
+
+    if (!inputQty || inputQty <= 0) {
+
+        alert("กรุณาใส่จำนวน");
+
+        return;
+    }
+
     if (found) {
-        found.qty += qty;
-    } else {
+        found.qty += inputQty;
+    } 
+    
+    else {
         cart.push({
             name: currentProduct,
             price: currentPrice,
-            qty: qty,
+            qty: inputQty,
             branch: currentBranch
         });
     }
@@ -74,10 +100,47 @@ function loadCartPopup() {
             <b>${item.name}</b><br>
 
             <div class="qty-box">
-                <button onclick="decreaseItem(${index}); event.stopPropagation()">-</button>
-                <span>${item.qty}</span>
-                <button onclick="increaseItem(${index}); event.stopPropagation()">+</button>
-            </div>
+
+    <button onclick="
+    decreaseItem(
+    ${index},
+    this
+    )
+    ">
+    -
+    </button>
+
+    <input
+        type="text"
+        value="${item.qty}"
+        class="cart-qty-input"
+
+        inputmode="numeric"
+
+        oninput="
+        this.value =
+        this.value.replace(
+        /[^0-9]/g,''
+        );
+
+        updateItemQty(
+        ${index},
+        this.value,
+        this
+        );
+        "
+    >
+
+    <button onclick="
+    increaseItem(
+    ${index},
+    this
+    )   
+    ">
+    +
+    </button>
+
+</div>
 
             <div>= ${subtotal} บาท</div>
         </div>
@@ -92,26 +155,154 @@ function loadCartPopup() {
 }
 
 // ================== ITEM CONTROL ==================
-function increaseItem(index) {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+function increaseItem(index, btn) {
+
+    let cart =
+    JSON.parse(
+        localStorage.getItem("cart")
+    ) || [];
+
     cart[index].qty++;
-    localStorage.setItem("cart", JSON.stringify(cart));
-    loadCartPopup();
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+    btn.parentElement
+    .querySelector("input")
+    .value = cart[index].qty;
+
+    btn.parentElement
+    .parentElement
+    .querySelector("div:last-child")
+    .innerText =
+    "= " +
+    (cart[index].price *
+    cart[index].qty)
+    + " บาท";
+
     updateCartCount();
+
+    updateCartTotal();
 }
 
-function decreaseItem(index) {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+function decreaseItem(index, btn) {
+
+    let cart =
+    JSON.parse(
+        localStorage.getItem("cart")
+    ) || [];
 
     cart[index].qty--;
 
     if (cart[index].qty <= 0) {
+
         cart.splice(index, 1);
+
+        localStorage.setItem(
+            "cart",
+            JSON.stringify(cart)
+        );
+
+        loadCartPopup();
+
+        updateCartCount();
+
+        updateCartTotal();
+
+        return;
     }
 
-    localStorage.setItem("cart", JSON.stringify(cart));
-    loadCartPopup();
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+    btn.parentElement
+    .querySelector("input")
+    .value = cart[index].qty;
+
+    btn.parentElement
+    .parentElement
+    .querySelector("div:last-child")
+    .innerText =
+    "= " +
+    (cart[index].price *
+    cart[index].qty)
+    + " บาท";
+
     updateCartCount();
+
+    updateCartTotal();
+}
+
+function updateItemQty(index, value, input) {
+
+    let cart =
+    JSON.parse(
+        localStorage.getItem("cart")
+    ) || [];
+
+    let qty = parseInt(value);
+
+    if (!qty || qty <= 0) {
+
+        cart.splice(index, 1);
+
+        localStorage.setItem(
+            "cart",
+            JSON.stringify(cart)
+        );
+
+        loadCartPopup();
+
+        updateCartCount();
+
+        updateCartTotal();
+
+        return;
+    }
+
+    cart[index].qty = qty;
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+    input.parentElement
+    .parentElement
+    .querySelector("div:last-child")
+    .innerText =
+    "= " +
+    (cart[index].price *
+    cart[index].qty)
+    + " บาท";
+
+    updateCartCount();
+
+    updateCartTotal();
+}
+
+function updateCartTotal() {
+
+    let cart =
+    JSON.parse(
+        localStorage.getItem("cart")
+    ) || [];
+
+    let total = 0;
+
+    cart.forEach(item => {
+
+        total +=
+        item.price * item.qty;
+    });
+
+    document.getElementById(
+        "cart-total"
+    ).innerText = total;
 }
 
 // ================== POPUP ==================
@@ -122,7 +313,8 @@ function openPopup(name, price, branch) {
     qty = 1;
 
     document.getElementById("popup-name").innerText = name;
-    document.getElementById("popup-qty").innerText = qty;
+    document.getElementById("popup-qty")
+    .value = qty;
 
     document.getElementById("popup").style.display = "block";
 }
@@ -483,6 +675,227 @@ function closeMenu() {
 
     document.getElementById("menu-btn")
             .style.display = "block";
+}
+
+const quoteProducts = {
+
+    A: [
+
+        "หินกาบดำ",
+
+        "หินทรายเขียว",
+
+        "หินทรายเหลืองลาย"
+    ],
+
+    B: [
+
+        "หินกาบดำ",
+
+        "หินทรายเขียว",
+
+        "หินทรายเหลืองทอง"
+    ]
+};
+
+function loadQuoteProducts() {
+
+    let branch =
+    document.getElementById(
+        "quote-branch"
+    ).value;
+
+    let productSelect =
+    document.getElementById(
+        "quote-product"
+    );
+
+    productSelect.innerHTML = `
+    <option value="">
+        --เลือกสินค้า--
+    </option>
+    `;
+
+    if (!branch) return;
+
+    quoteProducts[branch]
+    .forEach(product => {
+
+        productSelect.innerHTML += `
+        <option value="${product}">
+            ${product}
+        </option>
+        `;
+    });
+}
+
+function toggleQuoteAddress() {
+
+    let delivery =
+    document.getElementById(
+        "quote-delivery"
+    ).value;
+
+    let box =
+    document.getElementById(
+        "quote-address-box"
+    );
+
+    if (delivery === "delivery") {
+
+        box.style.display =
+        "block";
+    }
+
+    else {
+
+        box.style.display =
+        "none";
+    }
+}
+
+function loadQuoteProvinces() {
+
+    let provinceSelect =
+    document.getElementById(
+        "quote-province"
+    );
+
+    fetch("provinces.json")
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        provinceSelect.innerHTML =
+        `
+        <option value="">
+        เลือกจังหวัด
+        </option>
+        `;
+
+        data.forEach(item => {
+
+            provinceSelect.innerHTML += `
+            <option value="${item.id}">
+                ${item.name_th}
+            </option>
+            `;
+        });
+    });
+}
+
+function loadQuoteAmphures() {
+
+    let provinceId =
+    document.getElementById(
+        "quote-province"
+    ).value;
+
+    fetch("districts.json")
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        let html =
+        `
+        <option value="">
+        เลือกอำเภอ
+        </option>
+        `;
+
+        let filtered =
+        data.filter(item =>
+
+            item.province_id ==
+            provinceId
+        );
+
+        filtered.forEach(item => {
+
+            html += `
+            <option value="${item.id}">
+                ${item.name_th}
+            </option>
+            `;
+        });
+
+        document.getElementById(
+            "quote-amphure"
+        ).innerHTML = html;
+    });
+}
+
+const branchProvinces = {
+
+    A: [
+
+        "นครพนม",
+
+        "สกลนคร",
+
+        "บึงกาฬ",
+
+        "มุกดาหาร"
+    ],
+
+    B: [
+
+        "อุบลราชธานี",
+
+        "ศรีสะเกษ",
+
+        "อำนาจเจริญ"
+    ]
+};
+
+function loadQuoteProvinces() {
+
+    let branch =
+    document.getElementById(
+        "quote-branch"
+    ).value;
+
+    let provinceSelect =
+    document.getElementById(
+        "quote-province"
+    );
+
+    fetch("provinces.json")
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        provinceSelect.innerHTML =
+        `
+        <option value="">
+        เลือกจังหวัด
+        </option>
+        `;
+
+        let allowed =
+        branchProvinces[branch]
+        || [];
+
+        let filtered =
+        data.filter(item =>
+
+            allowed.includes(
+                item.name_th
+            )
+        );
+
+        filtered.forEach(item => {
+
+            provinceSelect.innerHTML += `
+            <option value="${item.id}">
+                ${item.name_th}
+            </option>
+            `;
+        });
+    });
 }
 
 // ================== START ==================

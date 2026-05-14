@@ -93,7 +93,7 @@
 
     <a href="products.html">สินค้า</a>
 
-    <a href="#">ขอใบเสนอราคา</a>
+    <a href="quote.html">ขอใบเสนอราคา</a>
 
     <a href="#">เกี่ยวกับเรา</a>
 
@@ -208,7 +208,7 @@ function openPopup(name, price, branch) {
     qty = 1;
 
     document.getElementById("popup-name").innerText = name;
-    document.getElementById("popup-qty").innerText = qty;
+    document.getElementById("popup-qty").value = qty;
 
     document.getElementById("popup").style.display = "block";
 }
@@ -217,15 +217,26 @@ function closePopup() {
     document.getElementById("popup").style.display = "none";
 }
 
-function increasePopup() {
-    qty++;
-    document.getElementById("popup-qty").innerText = qty;
+function increaseQty() {
+
+    let input =
+    document.getElementById("popup-qty");
+
+    input.value =
+    parseInt(input.value) + 1;
 }
 
-function decreasePopup() {
-    if (qty > 1) {
-        qty--;
-        document.getElementById("popup-qty").innerText = qty;
+function decreaseQty() {
+
+    let input =
+    document.getElementById("popup-qty");
+
+    let current =
+    parseInt(input.value);
+
+    if (current > 1) {
+
+        input.value = current - 1;
     }
 }
 </script>
@@ -235,10 +246,35 @@ function decreasePopup() {
       <h3 id="popup-name"></h3>
   
       <div class="qty-box">
-        <button onclick="decreasePopup()">-</button>
-        <span id="popup-qty">1</span>
-        <button onclick="increasePopup()">+</button>
-      </div>
+
+    <button onclick="decreaseQty()">
+        -
+    </button>
+
+    <input
+        type="text"
+        id="popup-qty"
+        value="1"
+        class="qty-input"
+        inputmode="numeric"
+
+        oninput="
+        this.value =
+        this.value.replace(
+        /[^0-9]/g,''
+        );
+
+        if(this.value === ''){
+            this.value = 1;
+        }
+        "
+    >
+
+    <button onclick="increaseQty()">
+        +
+    </button>
+
+</div>
   
       <br>
     <button onclick="closePopup()">ยกเลิก</button>
