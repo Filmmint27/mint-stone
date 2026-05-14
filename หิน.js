@@ -300,13 +300,12 @@ function confirmPayment() {
     })
 })
 
-.then(() => {
     alert("สั่งซื้อสำเร็จ!");
 
     localStorage.removeItem("cart");
 
     window.location.href = "index.html";
-})};
+};
 
 // ================== ADDRESS ==================
 function toggleAddress() {
