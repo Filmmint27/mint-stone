@@ -262,7 +262,6 @@ function confirmPayment() {
             return;
         }
     }
-    alert("กำลังส่ง");
     fetch(
     "https://script.google.com/macros/s/AKfycbxuKJIdn1GRLWWtb-oE6ruAIg1A9q13yUhPTWFql3907TQ5GxTz3V09RKluT4bQvhOH/exec",
         
@@ -306,7 +305,6 @@ function confirmPayment() {
             delivery: delivery
         })
     });
-    alert("ส่งแล้ว");
     alert("สั่งซื้อสำเร็จ!");
 
     localStorage.removeItem("cart");
