@@ -454,6 +454,15 @@ function confirmPayment() {
             return;
         }
     }
+
+    let deliveryText =
+
+delivery === "delivery"
+
+? "จัดส่ง"
+
+: "รับหน้าร้าน";
+
     fetch(
 "https://script.google.com/macros/s/AKfycbxuKJIdn1GRLWWtb-oE6ruAIg1A9q13yUhPTWFql3907TQ5GxTz3V09RKluT4bQvhOH/exec", {
 
@@ -487,13 +496,7 @@ function confirmPayment() {
             localStorage.getItem("cart")
         )[0].qty,
 
-    delivery:
-
-    delivery === "delivery"
-
-    ? "จัดส่ง"
-
-    : "รับหน้าร้าน"    })
+        delivery: deliveryText})
 })
 
     alert("สั่งซื้อสำเร็จ!");
