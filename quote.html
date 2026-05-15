@@ -250,7 +250,7 @@ function sendQuote() {
     }
 
     fetch(
-    "ใส่URLAppsScriptตรงนี้",
+    "https://script.google.com/macros/s/AKfycbxuKJIdn1GRLWWtb-oE6ruAIg1A9q13yUhPTWFql3907TQ5GxTz3V09RKluT4bQvhOH/exec",
 
     {
 
@@ -259,6 +259,8 @@ function sendQuote() {
         mode: "no-cors",
 
         body: new URLSearchParams({
+
+            type: "quote",
 
             name: name,
 
