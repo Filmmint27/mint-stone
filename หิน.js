@@ -487,8 +487,13 @@ function confirmPayment() {
             localStorage.getItem("cart")
         )[0].qty,
 
-        delivery: delivery
-    })
+    delivery:
+
+    delivery === "delivery"
+
+    ? "จัดส่ง"
+
+    : "รับหน้าร้าน"    })
 })
 
     alert("สั่งซื้อสำเร็จ!");
