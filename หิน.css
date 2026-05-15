@@ -582,3 +582,12 @@
     inset 0 3px 8px
     rgba(0,0,0,0.3);
 }
+.order-container label {
+
+    display: block;
+
+    margin-bottom: 6px;
+
+    margin-top: 6px;
+}
+

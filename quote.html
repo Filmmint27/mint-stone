@@ -71,7 +71,10 @@
 
     <select
         id="quote-branch"
-        onchange="loadQuoteProducts()"
+        onchange="
+    loadQuoteProducts();
+    loadQuoteProvinces();
+"
     >
 
         <option value="">
@@ -146,11 +149,8 @@
     <label>อำเภอ</label>
 
     <select
-        id="quote-amphure"
-        onchange="
-    loadQuoteProducts();
-    loadQuoteProvinces();
-    "
+    id="quote-amphure"
+    onchange="loadQuoteDistricts()"
     >
 
         <option value="">
@@ -282,6 +282,238 @@ function sendQuote() {
 
     window.location.href =
     "index.html";
+}
+
+const branchProvinces = {
+
+    A: [
+
+        "นครพนม",
+
+        "สกลนคร",
+
+        "บึงกาฬ",
+
+        "มุกดาหาร"
+    ],
+
+    B: [
+
+        "อุบลราชธานี",
+
+        "ศรีสะเกษ",
+
+        "อำนาจเจริญ"
+    ]
+};
+
+const quoteProducts = {
+
+    A: [
+
+        "หินกาบดำ",
+
+        "หินทรายเขียว",
+
+        "หินทรายเหลืองลาย"
+    ],
+
+    B: [
+
+        "หินกาบดำ",
+
+        "หินทรายเขียว",
+
+        "หินทรายเหลืองทอง"
+    ]
+};
+
+function loadQuoteProducts() {
+
+    let branch =
+    document.getElementById(
+        "quote-branch"
+    ).value;
+
+    let productSelect =
+    document.getElementById(
+        "quote-product"
+    );
+
+    productSelect.innerHTML = `
+    <option value="">
+        --เลือกสินค้า--
+    </option>
+    `;
+
+    if (!branch) return;
+
+    quoteProducts[branch]
+    .forEach(product => {
+
+        productSelect.innerHTML += `
+        <option value="${product}">
+            ${product}
+        </option>
+        `;
+    });
+}
+
+function loadQuoteProvinces() {
+
+    let branch =
+    document.getElementById(
+        "quote-branch"
+    ).value;
+
+    let provinceSelect =
+    document.getElementById(
+        "quote-province"
+    );
+
+    fetch("provinces.json")
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        provinceSelect.innerHTML =
+        `
+        <option value="">
+        เลือกจังหวัด
+        </option>
+        `;
+
+        let allowed =
+        branchProvinces[branch]
+        || [];
+
+        let filtered =
+        data.filter(item =>
+
+            allowed.includes(
+                item.name_th
+            )
+        );
+
+        filtered.forEach(item => {
+
+            provinceSelect.innerHTML += `
+            <option value="${item.id}">
+                ${item.name_th}
+            </option>
+            `;
+        });
+    });
+}
+
+function loadQuoteAmphures() {
+
+    let provinceId =
+    document.getElementById(
+        "quote-province"
+    ).value;
+
+    fetch("districts.json")
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        let html =
+        `
+        <option value="">
+        เลือกอำเภอ
+        </option>
+        `;
+
+        let filtered =
+        data.filter(item =>
+
+            item.province_id ==
+            provinceId
+        );
+
+        filtered.forEach(item => {
+
+            html += `
+            <option value="${item.id}">
+                ${item.name_th}
+            </option>
+            `;
+        });
+
+        document.getElementById(
+            "quote-amphure"
+        ).innerHTML = html;
+    });
+}
+
+function loadQuoteDistricts() {
+
+    let amphureId =
+    document.getElementById(
+        "quote-amphure"
+    ).value;
+
+    fetch("sub_districts.json")
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        let html =
+        `
+        <option value="">
+        เลือกตำบล
+        </option>
+        `;
+
+        let filtered =
+        data.filter(item =>
+
+            item.district_id ==
+            amphureId
+        );
+
+        filtered.forEach(item => {
+
+            html += `
+            <option value="${item.name_th}">
+                ${item.name_th}
+            </option>
+            `;
+        });
+
+        document.getElementById(
+            "quote-district"
+        ).innerHTML = html;
+    });
+}
+
+function toggleQuoteAddress() {
+
+    let delivery =
+    document.getElementById(
+        "quote-delivery"
+    ).value;
+
+    let box =
+    document.getElementById(
+        "quote-address-box"
+    );
+
+    if (delivery === "delivery") {
+
+        box.style.display =
+        "block";
+    }
+
+    else {
+
+        box.style.display =
+        "none";
+    }
 }
 
 </script>
