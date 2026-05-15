@@ -401,7 +401,7 @@ function confirmPayment() {
         branch = "อุบลราชธานี";
     }
 
-    if (delivery === "delivery") {
+    if (delivery === "จัดส่ง") {
 
         let amphureSelect =
         document.getElementById("amphure");
@@ -430,7 +430,7 @@ function confirmPayment() {
         }
     }
 
-    if (delivery === "pickup") {
+    if (delivery === "รับหน้าร้าน") {
 
         provinceName = "";
 
@@ -740,7 +740,7 @@ function toggleQuoteAddress() {
         "quote-address-box"
     );
 
-    if (delivery === "delivery") {
+    if (delivery === "จัดส่ง") {
 
         box.style.display =
         "block";
